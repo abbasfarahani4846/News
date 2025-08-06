@@ -1,0 +1,66 @@
+﻿@model IEnumerable<News.Models.Db.Menu>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]" class="btn btn-outline-success">Create New</a>
+    
+    <form asp-action="Index" method="get" class="d-flex align-items-center gap-2">
+        <select name="id" class="form-select form-control" asp-items="ViewBag.Menus">
+            <option value="">-- Select Parent --</option>
+        </select>
+
+        <a href="/admin/menus" class="btn btn-outline-danger">
+            Clear
+        </a>
+        <button type="submit" class="btn btn-primary">
+            Filter
+        </button>
+    </form>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Link)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Link)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
