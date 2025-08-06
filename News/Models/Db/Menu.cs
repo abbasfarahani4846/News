@@ -14,4 +14,6 @@ public partial class Menu
     public int? ParentId { get; set; }
 
     public string Position { get; set; } = null!;
+
+    public int? Priority { get; set; }
 }

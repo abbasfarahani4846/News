@@ -32,11 +32,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().Position)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Priority)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderBy(x => x.Priority))
         {
             <tr>
                 <td>@item.Title</td>

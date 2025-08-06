@@ -71,7 +71,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Link,ParentId,Position")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Id,Title,Link,ParentId,Position,Priority")] Menu menu)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +111,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,ParentId,Position")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,ParentId,Position,Priority")] Menu menu)
         {
             if (id != menu.Id)
             {
