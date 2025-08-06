@@ -1,41 +1,36 @@
 ﻿@model IEnumerable<News.Models.Db.Menu>
 
 @{
-    ViewData["Title"] = "Index";
+    var parent = ViewBag.parent as News.Models.Db.Menu;
+    ViewData["Title"] = "Index " + (parent != null ? parent.Title : "");
 }
 
-
 <p>
-    <a asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]" class="btn btn-outline-success">Create New</a>
-    
-    <form asp-action="Index" method="get" class="d-flex align-items-center gap-2">
-        <select name="id" class="form-select form-control" asp-items="ViewBag.Menus">
-            <option value="">-- Select Parent --</option>
-        </select>
-
-        <a href="/admin/menus" class="btn btn-outline-danger">
-            Clear
+    @if (parent != null)
+    {
+        <a href="/admin/menus/create?parentId=@parent.Id" class="btn btn-outline-success">
+            Add new sub menu
         </a>
-        <button type="submit" class="btn btn-primary">
-            Filter
-        </button>
-    </form>
+    }
+    else
+    {
+        <a href="/admin/menus/create" class="btn btn-outline-success">
+            Add new menu
+        </a>
+    }
 </p>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Link)
+                @Html.DisplayNameFor(model => model.First().Link)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParentId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position)
+                @Html.DisplayNameFor(model => model.First().Position)
             </th>
             <th></th>
         </tr>
@@ -44,20 +39,22 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.Title</td>
+                <td>@item.Link</td>
+                <td>@item.Position</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Link)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParentId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Position)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id">
+                        Edit |
+                    </a>
+
+                    @if (parent == null)
+                    {
+                        <a href="/admin/menus?id=@item.Id">
+                            Sub menus |
+                        </a>
+                    }
+
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>

@@ -24,17 +24,15 @@ namespace News.Areas.Admin.Controllers
         // GET: Admin/Menus
         public async Task<IActionResult> Index(int? id)
         {
-            ViewBag.Menus = _context.Menus
-               .Where(x => x.ParentId == null)
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Title
-                })
-                .ToList();
-
             if (id != null)
             {
+                var parent = await _context.Menus.FirstOrDefaultAsync(x => x.Id == id);
+                if (parent == null)
+                {
+                    return NotFound();
+                }
+
+                ViewBag.Parent = parent;
                 return View(await _context.Menus.Where(x => x.ParentId == id).ToListAsync());
             }
 
@@ -61,16 +59,9 @@ namespace News.Areas.Admin.Controllers
         }
 
         // GET: Admin/Menus/Create
-        public IActionResult Create()
+        public IActionResult Create(int? parentId)
         {
-            ViewBag.Menus = _context.Menus
-                        .Where(x => x.ParentId == null)
-                         .Select(c => new SelectListItem
-                         {
-                             Value = c.Id.ToString(),
-                             Text = c.Title
-                         })
-                         .ToList();
+            ViewBag.parentid = parentId;
 
             return View();
         }
@@ -86,17 +77,16 @@ namespace News.Areas.Admin.Controllers
             {
                 _context.Add(menu);
                 await _context.SaveChangesAsync();
+
+                if (menu.ParentId != null)
+                {
+                    return Redirect("/admin/menus?id=" + menu.ParentId);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Menus = _context.Menus
-                     .Where(x => x.ParentId == null)
-                      .Select(c => new SelectListItem
-                      {
-                          Value = c.Id.ToString(),
-                          Text = c.Title
-                      })
-                      .ToList();
+            ViewBag.parentid = menu.ParentId;
             return View(menu);
         }
 
@@ -113,16 +103,6 @@ namespace News.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.Menus = _context.Menus
-                     .Where(x => x.ParentId == null)
-                      .Select(c => new SelectListItem
-                      {
-                          Value = c.Id.ToString(),
-                          Text = c.Title
-                      })
-                      .ToList();
-
             return View(menu);
         }
 
@@ -156,17 +136,15 @@ namespace News.Areas.Admin.Controllers
                         throw;
                     }
                 }
+
+
+                if (menu.ParentId != null)
+                {
+                    return Redirect("/admin/menus?id=" + menu.ParentId);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.Menus = _context.Menus
-                     .Where(x => x.ParentId == null)
-                      .Select(c => new SelectListItem
-                      {
-                          Value = c.Id.ToString(),
-                          Text = c.Title
-                      })
-                      .ToList();
 
             return View(menu);
         }
