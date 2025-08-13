@@ -23,8 +23,6 @@ public partial class NewsContext : DbContext
 
     public virtual DbSet<News> News { get; set; }
 
-    public virtual DbSet<NewsTag> NewsTags { get; set; }
-
     public virtual DbSet<Tag> Tags { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,9 +43,6 @@ public partial class NewsContext : DbContext
         {
             entity.ToTable("Comment");
 
-            entity.Property(e => e.Comment1)
-                .HasMaxLength(500)
-                .HasColumnName("Comment");
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FullName).HasMaxLength(50);
@@ -67,6 +62,8 @@ public partial class NewsContext : DbContext
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.ImageName).HasMaxLength(50);
             entity.Property(e => e.ShortDescription).HasMaxLength(200);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Tags).HasMaxLength(500);
             entity.Property(e => e.Title).HasMaxLength(100);
         });
 

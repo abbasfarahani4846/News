@@ -17,11 +17,13 @@ public partial class News
 
     public int? ViewCount { get; set; }
 
-    public int Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public bool IsTrend { get; set; }
 
     public string? ImageName { get; set; }
 
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
+
+    public string? Tags { get; set; }
 }

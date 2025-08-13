@@ -1,0 +1,155 @@
+﻿@model News.Models.Db.News
+
+@{
+    ViewData["Title"] = "Create News";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LongDescription" class="control-label"></label>
+                <textarea id="editor" asp-for="LongDescription"></textarea>
+                <span asp-validation-for="LongDescription" class="text-danger"></span>
+            </div>
+         
+            <div class="form-group">
+                <label class="control-label">
+                    Category
+                </label>
+                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+                
+            <div class="form-group">
+                <label class="control-label">
+                    Tags
+                </label>
+                <select asp-for="Tags" asp-items="ViewBag.Tags" class="form-control" multiple="multiple" size="5">
+                </select>
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="PUBLISH">
+                        PUBLISH
+                    </option>
+                    <option value="UNPUBLISH">
+                        UNPUBLISH
+                    </option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsTrend" /> @Html.DisplayNameFor(model => model.IsTrend)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageName" class="control-label"></label>
+                <input type="file" name="image" class="form-control" />
+                <span asp-validation-for="ImageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+    <script>
+        // آپلودر سفارشی برای CKEditor
+        class MyUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+
+            // شروع آپلود
+            upload() {
+                return this.loader.file
+                    .then(file => {
+                        const data = new FormData();
+                        data.append('upload', file);
+
+                        return fetch('/Admin/News/UploadImage', {
+                            method: 'POST',
+                            body: data
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Upload failed');
+                                }
+                                return response.json();
+                            })
+                            .then(result => {
+                                // باید کلید default حاوی URL عکس رو برگردونیم
+                                return { default: result.url };
+                            });
+                    });
+            }
+
+        }
+
+        // پلاگین برای وصل کردن آپلودر به CKEditor
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new MyUploadAdapter(loader);
+            };
+        }
+
+        let editor;
+
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                language: 'en'
+            })
+            .then(newEditor => {
+                editor = newEditor;
+
+                // اگر صفحه "ویرایش" بود، مقدار اولیه رو از textarea لود کن
+                const longDescTextarea = document.querySelector("textarea[name='LongDescription']");
+                if (longDescTextarea && longDescTextarea.value) {
+                    editor.setData(longDescTextarea.value);
+                }
+            })
+            .catch(error => {
+                console.error('Error initializing CKEditor:', error);
+            });
+
+        // قبل از ارسال فرم، محتوای ادیتور رو داخل textarea بریزیم
+        document.querySelector('form').addEventListener('submit', function () {
+            if (editor) {
+                document.querySelector("textarea[name='LongDescription']").value = editor.getData();
+            }
+        });
+    </script>
+
+    @{
+        // Render standard validation scripts
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

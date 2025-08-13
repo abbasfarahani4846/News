@@ -11,7 +11,7 @@ public partial class Comment
 
     public string Email { get; set; } = null!;
 
-    public string Comment1 { get; set; } = null!;
+    public string CommentText { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
 

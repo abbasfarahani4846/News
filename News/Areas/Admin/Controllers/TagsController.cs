@@ -2,78 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
 using News.Models.Db;
 
 namespace News.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class MenusController : Controller
+    public class TagsController : Controller
     {
         private readonly NewsContext _context;
 
-        public MenusController(NewsContext context)
+        public TagsController(NewsContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Menus
-        public async Task<IActionResult> Index(int? id)
+        // GET: Admin/Tags
+        public async Task<IActionResult> Index()
         {
-            if (id != null)
-            {
-                var parent = await _context.Menus.FirstOrDefaultAsync(x => x.Id == id);
-                if (parent == null)
-                {
-                    return NotFound();
-                }
-
-                ViewBag.Parent = parent;
-                return View(await _context.Menus.Where(x => x.ParentId == id).ToListAsync());
-            }
-
-
-            return View(await _context.Menus.Where(x => x.ParentId == null).ToListAsync());
+            return View(await _context.Tags.ToListAsync());
         }
 
 
-        // GET: Admin/Menus/Create
-        public IActionResult Create(int? parentId)
+        // GET: Admin/Tags/Create
+        public IActionResult Create()
         {
-            ViewBag.parentid = parentId;
-
             return View();
         }
 
-        // POST: Admin/Menus/Create
+        // POST: Admin/Tags/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Link,ParentId,Position,Priority")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Id,Title")] Tag tag)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(menu);
+                _context.Add(tag);
                 await _context.SaveChangesAsync();
-
-                if (menu.ParentId != null)
-                {
-                    return Redirect("/admin/menus?id=" + menu.ParentId);
-                }
-
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.parentid = menu.ParentId;
-            return View(menu);
+            return View(tag);
         }
 
-        // GET: Admin/Menus/Edit/5
+        // GET: Admin/Tags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,22 +56,22 @@ namespace News.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var menu = await _context.Menus.FindAsync(id);
-            if (menu == null)
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag == null)
             {
                 return NotFound();
             }
-            return View(menu);
+            return View(tag);
         }
 
-        // POST: Admin/Menus/Edit/5
+        // POST: Admin/Tags/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,ParentId,Position,Priority")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Tag tag)
         {
-            if (id != menu.Id)
+            if (id != tag.Id)
             {
                 return NotFound();
             }
@@ -105,12 +80,12 @@ namespace News.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(menu);
+                    _context.Update(tag);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MenuExists(menu.Id))
+                    if (!TagExists(tag.Id))
                     {
                         return NotFound();
                     }
@@ -119,20 +94,12 @@ namespace News.Areas.Admin.Controllers
                         throw;
                     }
                 }
-
-
-                if (menu.ParentId != null)
-                {
-                    return Redirect("/admin/menus?id=" + menu.ParentId);
-                }
-
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(menu);
+            return View(tag);
         }
 
-        // GET: Admin/Menus/Delete/5
+        // GET: Admin/Tags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,34 +107,34 @@ namespace News.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var menu = await _context.Menus
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (menu == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(menu);
+            return View(tag);
         }
 
-        // POST: Admin/Menus/Delete/5
+        // POST: Admin/Tags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var menu = await _context.Menus.FindAsync(id);
-            if (menu != null)
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag != null)
             {
-                _context.Menus.Remove(menu);
+                _context.Tags.Remove(tag);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MenuExists(int id)
+        private bool TagExists(int id)
         {
-            return _context.Menus.Any(e => e.Id == id);
+            return _context.Tags.Any(e => e.Id == id);
         }
     }
 }

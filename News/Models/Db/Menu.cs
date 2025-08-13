@@ -15,5 +15,5 @@ public partial class Menu
 
     public string Position { get; set; } = null!;
 
-    public int? Priority { get; set; }
+    public short? Priority { get; set; }
 }

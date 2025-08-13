@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using News.Models.Db;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<NewsContext>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()   // به همه دامنه‌ها اجازه می‌دهد
+                  .AllowAnyMethod()  // به همه متدهای HTTP اجازه می‌دهد (GET, POST, etc)
+                  .AllowAnyHeader(); // به همه هدرها اجازه می‌دهد
+        });
+});
 
 var app = builder.Build();
 
@@ -26,6 +37,7 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
   name: "areas",
