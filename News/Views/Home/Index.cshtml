@@ -1,8 +1,370 @@
-﻿@{
+﻿@using News.Models.Helpers
+@using News.Models.ViewModels
+@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<!-- Features Start -->
+<div class="container-fluid features mb-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            @foreach (var item in Model.FeaturesNews)
+            {
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="row g-4 align-items-center features-item">
+                        <div class="col-4">
+                            <div class="rounded-circle position-relative">
+                                <div class="overflow-hidden rounded-circle">
+                                    <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-circle w-100" alt="@item.Title">
+                                </div>
+                                <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">
+                                    3
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="features-content d-flex flex-column">
+                                <p class="text-uppercase mb-2">
+
+                                </p>
+                                <a href="#" class="h6">
+                                    @item.Title
+                                </a>
+                                <small class="text-body d-block">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    @item.CreatedAt.ToString("MMM dd, yyyy")
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+<!-- Features End -->
+<!-- Main Post Section Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-7 col-xl-8 mt-0">
+                @if (@Model.MainNews != null)
+                {
+                    <div class="position-relative overflow-hidden rounded">
+                        <img src="/images/news/@Model.MainNews.ImageName" class="img-fluid rounded img-zoomin w-100" alt="">
+                        <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style="bottom: 10px; left: 0;">
+                            <a class="text-white me-3 link-hover"><i class="fa fa-clock"></i> @TextHelpers.CalculateReadingTime(@Model.MainNews.LongDescription) minute read</a>
+                            <a class="text-white me-3 link-hover"><i class="fa fa-eye"></i> @Model.MainNews.ViewCount Views</a>
+                        </div>
+                    </div>
+                    <div class="border-bottom py-3">
+                        <a href="#" class="display-4 text-dark mb-0 link-hover">
+                            @Model.MainNews.Title
+                        </a>
+                    </div>
+                    <p class="mt-3 mb-4">
+                        @Model.MainNews.ShortDescription
+                    </p>
+
+                }
+                @if (@Model.TopStory != null)
+                {
+                    <div class="bg-light p-4 rounded">
+                        <div class="news-2">
+                            <h3 class="mb-4">Top Story</h3>
+                        </div>
+                        <div class="row g-4 align-items-center">
+                            <div class="col-md-6">
+                                <div class="rounded overflow-hidden">
+                                    <img src="/images/news/@Model.TopStory.ImageName" class="img-fluid rounded img-zoomin w-100" alt="@Model.TopStory.Title">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex flex-column">
+                                    <a href="#" class="h3">
+                                        @Model.TopStory.Title
+                                    </a>
+                                    <p class="mb-0 fs-5"><i class="fa fa-clock"> @TextHelpers.CalculateReadingTime(@Model.TopStory.LongDescription) minute read</i> </p>
+                                    <p class="mb-0 fs-5"><i class="fa fa-eye"> @Model.TopStory.ViewCount Views</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-5 col-xl-4">
+                <div class="bg-light rounded p-4 pt-0">
+                    <div class="row g-4">
+                        @*   <div class="col-12">
+                            <div class="rounded overflow-hidden">
+                                <img src="img/news-3.jpg" class="img-fluid rounded img-zoomin w-100" alt="">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex flex-column">
+                                <a href="#" class="h4 mb-2">Get the best speak market, news.</a>
+                                <p class="fs-5 mb-0"><i class="fa fa-clock"> 06 minute read</i> </p>
+                                <p class="fs-5 mb-0"><i class="fa fa-eye"> 3.5k Views</i></p>
+                            </div>
+                        </div> *@
+
+                        @foreach (var item in Model.BestNews)
+                        {
+                            <div class="col-12">
+                                <div class="row g-4 align-items-center">
+                                    <div class="col-5">
+                                        <div class="overflow-hidden rounded">
+                                            <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded w-100" alt="@item.Title">
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="features-content d-flex flex-column">
+                                            <a href="#" class="h6">
+                                                @item.Title
+                                            </a>
+                                            <small><i class="fa fa-clock"> @TextHelpers.CalculateReadingTime(item.LongDescription) minute read</i> </small>
+                                            <small><i class="fa fa-eye"> @item.ViewCount Views</i></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Post Section End -->
+<!-- Banner Start -->
+<div class="container-fluid py-5 my-5" style="background: linear-gradient(rgba(202, 203, 185, 1), rgba(202, 203, 185, 1));">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-7">
+                <h1 class="mb-4 text-primary">Newsers</h1>
+                <h1 class="mb-4">Get Every Weekly Updates</h1>
+                <p class="text-dark mb-4 pb-2">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                </p>
+
+                <form class="newsletter-subscription-form">
+                    <div class="position-relative mx-auto">
+                        <input class="form-control w-100 py-3 rounded-pill newsletter-email-input" type="email" placeholder="Your Business Email" required>
+                        <button type="submit" class="btn btn-primary py-3 px-5 position-absolute rounded-pill text-white h-100" style="top: 0; right: 0;">Subscribe Now</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-lg-5">
+                <div class="rounded">
+                    <img src="img/banner-img.jpg" class="img-fluid rounded w-100 rounded" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner End -->
+<!-- Latest News Start -->
+<div class="container-fluid latest-news py-5">
+    <div class="container py-5">
+        <h2 class="mb-4">Latest News</h2>
+        <div class="latest-news-carousel owl-carousel">
+            @foreach (var item in Model.LastNews)
+            {
+                <div class="latest-news-item">
+                    <div class="bg-light rounded">
+                        <div class="rounded-top overflow-hidden">
+                            <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-top w-100" alt="@item.Title">
+                        </div>
+                        <div class="d-flex flex-column p-4">
+                            <a href="#" class="h4">
+                                @item.Title
+                            </a>
+                            <div class="d-flex justify-content-between">
+                                <a class="small text-body link-hover">
+                                    Admin
+                                </a>
+                                <small class="text-body d-block">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    @item.CreatedAt.ToString("MMM d, yyyy")
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Latest News End -->
+<!-- Most Populer News Start -->
+<div class="container-fluid populer-news py-5">
+    <div class="container py-5">
+        <div class="tab-class mb-4">
+            <div class="row g-4">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="d-flex flex-column flex-md-row justify-content-md-between border-bottom mb-4">
+                        <h1 class="mb-4">What’s New</h1>
+                        <ul class="nav nav-pills d-inline-flex text-center">
+                            @foreach (var item in Model.MainPageCategories)
+                            {
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2 @(item == Model.MainPageCategories.First() ? "active" : "")" data-bs-toggle="pill" href="#tab-@item.Category.Id">
+                                        <span class="text-dark" style="width: 100px;">
+                                            @item.Category.Title
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="tab-content mb-4">
+
+                        @* This is your main loop that iterates through the categories *@
+                        @foreach (var categoryViewModel in Model.MainPageCategories)
+                        {
+                            <div id="tab-@categoryViewModel.Category.Id" class="tab-pane fade show p-0 @(categoryViewModel == Model.MainPageCategories.First() ? "active" : "")">
+
+                                @{
+                                    // Separate the newest article (the first one in the list) from the rest
+                                    var latestNews = categoryViewModel.News.FirstOrDefault();
+                                    var otherNews = categoryViewModel.News.Skip(1);
+                                }
+
+                                <div class="row g-4">
+                                    @if (latestNews != null)
+                                    {
+                                        <div class="col-lg-8">
+                                            <div class="position-relative rounded overflow-hidden">
+                                                <img src="~/images/news/@latestNews.ImageName" class="img-zoomin img-fluid rounded w-100" alt="@latestNews.Title">
+                                                <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                    @categoryViewModel.Category.Title
+                                                </div>
+                                            </div>
+                                            <div class="my-4">
+                                                <a href="/News/Details/@latestNews.Id" class="h4">@latestNews.Title</a>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-dark me-3"><i class="fa fa-clock"></i> @TextHelpers.CalculateReadingTime(latestNews.LongDescription) minute read</span>
+                                                <span class="text-dark me-3"><i class="fa fa-eye"></i> @latestNews.ViewCount Views</span>
+                                            </div>
+                                            <p class="my-4">
+                                                @latestNews.ShortDescription
+                                            </p>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @* CORRECTED LOOP: Iterate over the REST of the news items (otherNews) *@
+                                                @foreach (var newsItem in otherNews)
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-5">
+                                                                <div class="overflow-hidden rounded">
+                                                                    <img src="~/images/news/thumb_@newsItem.ImageName" class="img-zoomin img-fluid rounded w-100" alt="@newsItem.Title">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-7">
+                                                                <div class="features-content d-flex flex-column">
+                                                                    <p class="text-uppercase mb-2">@categoryViewModel.Category.Title</p>
+                                                                    <a href="/News/Details/@newsItem.Id" class="h6">
+                                                                        @newsItem.Title
+                                                                    </a>
+                                                                    <small class="text-body d-block">
+                                                                        <i class="fas fa-calendar-alt me-1"></i>
+                                                                        @newsItem.CreatedAt.ToString("MMM d, yyyy")
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-12">
+                                            <p>No news found in this category.</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="border-bottom mb-4">
+                        <h2 class="my-4">Most Views News</h2>
+                    </div>
+                    <div class="whats-carousel owl-carousel">
+                        @foreach (var item in Model.MostViewsNews)
+                        {
+                            <div class="latest-news-item">
+                                <div class="bg-light rounded">
+                                    <div class="rounded-top overflow-hidden">
+                                        <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-top w-100" alt="@item.Title">
+                                    </div>
+                                    <div class="d-flex flex-column p-4">
+                                        <a href="#" class="h4">
+                                            @item.Title
+                                        </a>
+                                        <div class="d-flex justify-content-between">
+                                            <a href="#" class="small text-body link-hover">
+                                                by Admin
+                                            </a>
+                                            <small class="text-body d-block">
+                                                <i class="fas fa-calendar-alt me-1"></i>
+                                                @item.CreatedAt.ToString("MMM d, yyyy")
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="mt-5 lifestyle">
+                        <div class="border-bottom mb-4">
+                            <h1 class="mb-4">Life Style</h1>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="lifestyle-item rounded">
+                                    <img src="img/lifestyle-1.jpg" class="img-fluid w-100 rounded" alt="">
+                                    <div class="lifestyle-content">
+                                        <div class="mt-auto">
+                                            <a href="#" class="h4 text-white link-hover">There are many variations of passages of Lorem Ipsum available,</a>
+                                            <div class="d-flex justify-content-between mt-4">
+                                                <a href="#" class="small text-white link-hover">By Willium Smith</a>
+                                                <small class="text-white d-block"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="lifestyle-item rounded">
+                                    <img src="img/lifestyle-2.jpg" class="img-fluid w-100 rounded" alt="">
+                                    <div class="lifestyle-content">
+                                        <div class="mt-auto">
+                                            <a href="#" class="h4 text-white link-hover">There are many variations of passages of Lorem Ipsum available,</a>
+                                            <div class="d-flex justify-content-between mt-4">
+                                                <a href="#" class="small text-white link-hover">By Willium Smith</a>
+                                                <small class="text-white d-block"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Most Populer News End -->

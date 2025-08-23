@@ -7,50 +7,97 @@
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ViewCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsTrend)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ViewCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsTrend)
-            </td>
-            <td>
-                <img src="/images/news/@item.ImageName" style="max-width:150px" />
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">News List</h4>
+            </div>
+            <div class="card-body">
+                <div class="">
+                    <table id="basic-datatables" class="display table table-striped table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>View Count</th>
+                                <th>Status</th>
+                                <th>Is Trend</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <style>
+        td.truncate-title {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer; /* Optional: show a pointer cursor on hover */
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/Admin/News/LoadNewsData",
+                    "type": "POST",
+                    "dataType": "json"
+                },
+                "columns": [
+                      {
+                        "data": "title",
+                        "name": "Title",
+                        "className": "truncate-title",
+                        "render": function(data, type, row) {
+                            return `<span title="${data}">${data}</span>`;
+                        }
+                    },
+                    { "data": "viewCount", "name": "ViewCount" },
+                    { "data": "status", "name": "Status", "orderable": false },
+                    { "data": "isTrend", "name": "IsTrend", "orderable": false },
+                    {
+                        "data": "imageName", "orderable": false, "searchable": false,
+                        "render": function (data) {
+                            return data ? `<img src="/images/news/thumb_${data}" style="max-width:150px" />` : "No Image";
+                        }
+                    },
+                    { 
+                        "data": "id",
+                        "orderable": false,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+                            var editUrl = `/Admin/News/Edit/${data}`;
+                            var deleteUrl = `/Admin/News/Delete/${data}`;
+
+                            return `
+                                <div class="form-button-action">
+                                    <a href="${editUrl}" data-bs-toggle="tooltip" title="Edit" class="btn btn-link btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="${deleteUrl}" data-bs-toggle="tooltip" title="Remove" class="btn btn-link btn-danger">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>`;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>

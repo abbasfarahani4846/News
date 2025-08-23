@@ -1,0 +1,248 @@
+﻿@model News.Models.Db.Setting
+
+@{
+    ViewData["Title"] = "Manage Site";
+}
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input asp-for="Logo" type="hidden" />
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                Global Settings
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                Main page
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Logo" class="control-label"></label>
+                <input asp-for="Logo" class="form-control" />
+                <span asp-validation-for="Logo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CopyRight" class="control-label"></label>
+                <input asp-for="CopyRight" class="form-control" />
+                <span asp-validation-for="CopyRight" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Facebook" class="control-label"></label>
+                <input asp-for="Facebook" class="form-control" />
+                <span asp-validation-for="Facebook" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Twitter" class="control-label"></label>
+                <input asp-for="Twitter" class="form-control" />
+                <span asp-validation-for="Twitter" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Instagram" class="control-label"></label>
+                <input asp-for="Instagram" class="form-control" />
+                <span asp-validation-for="Instagram" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Youtube" class="control-label"></label>
+                <input asp-for="Youtube" class="form-control" />
+                <span asp-validation-for="Youtube" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Linkedin" class="control-label"></label>
+                <input asp-for="Linkedin" class="form-control" />
+                <span asp-validation-for="Linkedin" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="form-group">
+                <label asp-for="MainNews" class="control-label d-block">Main News</label>
+                <select asp-for="MainNews" id="mainNewsSelect" class="form-control">
+                    @if (ViewBag.MainNewsDetails != null)
+                    {
+                        <option value="@ViewBag.MainNewsDetails.Id" selected>@ViewBag.MainNewsDetails.Title</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TopStory" class="control-label d-block">Top Story</label>
+                <select asp-for="TopStory" id="topStorySelect" class="form-control">
+                    @if (ViewBag.TopStoryDetails != null)
+                    {
+                        <option value="@ViewBag.TopStoryDetails.Id" selected>@ViewBag.TopStoryDetails.Title</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FeaturesNews" class="control-label d-block">Features News</label>
+                <select asp-for="FeaturesNews" id="featuresNewsSelect" class="form-control" multiple="multiple">
+                    @if (ViewBag.FeaturesNewsDetails != null)
+                    {
+                        foreach (var newsItem in ViewBag.FeaturesNewsDetails)
+                        {
+                            <option value="@newsItem.Id" selected>@newsItem.Title</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BestNews" class="control-label d-block">Best News</label>
+                <select asp-for="BestNews" id="bestNewsSelect" class="form-control" multiple="multiple">
+                    @if (ViewBag.BestNewsDetails != null)
+                    {
+                        foreach (var newsItem in ViewBag.BestNewsDetails)
+                        {
+                            <option value="@newsItem.Id" selected>@newsItem.Title</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MainPageCategories" class="control-label d-block">Main Page Categories</label>
+                <select asp-for="MainPageCategories" id="mainPageCategoriesSelect" class="form-control" multiple="multiple">
+                    @* This part pre-populates the selected items on page load *@
+                    @if (ViewBag.MainPageCategoriesDetails != null)
+                    {
+                        foreach (var categoryItem in ViewBag.MainPageCategoriesDetails)
+                        {
+                            <option value="@categoryItem.Id" selected>@categoryItem.Title</option>
+                        }
+                    }
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // To avoid repeating code, we define the AJAX configuration once.
+            var select2AjaxConfig = {
+                url: '/admin/Settings/SearchNews', // URL to your search action method
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term // search term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.results
+                    };
+                },
+                cache: true
+            };
+
+            // --- Initialization for Single-Select Dropdowns ---
+            $('#mainNewsSelect').select2({
+                placeholder: 'Search for the main news story...',
+                allowClear: true,
+                minimumInputLength: 2,
+                ajax: select2AjaxConfig,
+                width: '100%'
+            });
+
+            $('#topStorySelect').select2({
+                placeholder: 'Search for the top story...',
+                allowClear: true,
+                minimumInputLength: 2,
+                ajax: select2AjaxConfig,
+                width: '100%'
+            });
+
+            // --- Initialization for Multi-Select Dropdowns ---
+            $('#featuresNewsSelect').select2({
+                placeholder: 'Search and select featured news...',
+                minimumInputLength: 2,
+                ajax: select2AjaxConfig,
+                width: '100%'
+            });
+
+            $('#bestNewsSelect').select2({
+                placeholder: 'Search and select best news...',
+                minimumInputLength: 2,
+                ajax: select2AjaxConfig,
+                width: '100%'
+            });
+
+
+            $('#mainPageCategoriesSelect').select2({
+                placeholder: 'Search and select categories...',
+                minimumInputLength: 2,
+                width: '100%',
+                ajax: {
+                    url: '/admin/Settings/SearchCategories', // URL to your NEW search action
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.results
+                        };
+                    },
+                    cache: true
+                }
+          });
+
+        });
+    </script>
+}

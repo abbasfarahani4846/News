@@ -23,6 +23,10 @@ public partial class NewsContext : DbContext
 
     public virtual DbSet<News> News { get; set; }
 
+    public virtual DbSet<Setting> Settings { get; set; }
+
+    public virtual DbSet<Subscriber> Subscribers { get; set; }
+
     public virtual DbSet<Tag> Tags { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -65,6 +69,34 @@ public partial class NewsContext : DbContext
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.Tags).HasMaxLength(500);
             entity.Property(e => e.Title).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<Setting>(entity =>
+        {
+            entity.ToTable("Setting");
+
+            entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.BestNews).HasMaxLength(50);
+            entity.Property(e => e.CopyRight).HasMaxLength(50);
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Facebook).HasMaxLength(50);
+            entity.Property(e => e.FeaturesNews).HasMaxLength(50);
+            entity.Property(e => e.Instagram).HasMaxLength(50);
+            entity.Property(e => e.Linkedin).HasMaxLength(50);
+            entity.Property(e => e.Logo).HasMaxLength(50);
+            entity.Property(e => e.MainPageCategories).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.Title).HasMaxLength(50);
+            entity.Property(e => e.Twitter).HasMaxLength(50);
+            entity.Property(e => e.Youtube).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Subscriber>(entity =>
+        {
+            entity.ToTable("Subscriber");
+
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.SubscribedAt).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Tag>(entity =>
