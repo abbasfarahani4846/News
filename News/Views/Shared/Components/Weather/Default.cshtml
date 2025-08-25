@@ -5,10 +5,10 @@
     @* <img src="/user/img/weather-icon.png" class="img-fluid w-100 me-2" alt=""> *@
     <div class="d-flex align-items-center">
         <strong class="fs-4 text-secondary">@Model.Temperature°C</strong>
-        <div class="d-flex flex-column ms-2" style="width: 150px;">
+        <div class="d-flex flex-column ms-2">
             <span class="text-body">@Model.City,</span>
             <small>
-                @Model.CurrentDate
+                @Model.CurrentDate.ToString("MMM d, yyyy")
             </small>
         </div>
     </div>

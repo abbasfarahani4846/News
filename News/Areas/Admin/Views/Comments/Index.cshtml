@@ -1,0 +1,61 @@
+﻿@model IEnumerable<News.Models.Db.Comment>
+
+@{
+    var news = ViewData["news"] as News.Models.Db.News;
+    ViewData["Title"] = "Comments of " + news.Title;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommentText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsApproved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommentText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsApproved)
+                </td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Edit" class="btn btn-link btn-primary">
+                        <i class="fa fa-edit"></i>
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Remove" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

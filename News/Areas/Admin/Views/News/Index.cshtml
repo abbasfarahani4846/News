@@ -84,11 +84,15 @@
                         "render": function (data, type, row) {
                             var editUrl = `/Admin/News/Edit/${data}`;
                             var deleteUrl = `/Admin/News/Delete/${data}`;
+                            var commentsUrl = `/Admin/Comments/index?id=${data}`;
 
                             return `
                                 <div class="form-button-action">
                                     <a href="${editUrl}" data-bs-toggle="tooltip" title="Edit" class="btn btn-link btn-primary">
                                         <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="${commentsUrl}" data-bs-toggle="tooltip" title="Comments" class="btn btn-link btn-info">
+                                        <i class="fa fa-comment"></i>
                                     </a>
                                     <a href="${deleteUrl}" data-bs-toggle="tooltip" title="Remove" class="btn btn-link btn-danger">
                                         <i class="fa fa-times"></i>

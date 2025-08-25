@@ -9,5 +9,7 @@ namespace News.Models.ViewModels
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public int ReadingTimeInMinutes { get; set; }
         public List<News.Models.Db.News> RelatedNews { get; set; } = new List<News.Models.Db.News>();
+        public List<News.Models.Db.News> Popular { get; set; } = new List<News.Models.Db.News>();
+        public List<News.Models.Db.Category> Categories { get; set; } = new List<News.Models.Db.Category>();
     }
 }

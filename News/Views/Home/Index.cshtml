@@ -21,16 +21,13 @@
                                     <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-circle w-100" alt="@item.Title">
                                 </div>
                                 <span class="rounded-circle border border-2 border-white bg-primary btn-sm-square text-white position-absolute" style="top: 10%; right: -10px;">
-                                    3
+                                    @item.ViewCount
                                 </span>
                             </div>
                         </div>
                         <div class="col-8">
                             <div class="features-content d-flex flex-column">
-                                <p class="text-uppercase mb-2">
-
-                                </p>
-                                <a href="#" class="h6">
+                                <a href="/news/@item.Id" class="h6">
                                     @item.Title
                                 </a>
                                 <small class="text-body d-block">
@@ -61,7 +58,7 @@
                         </div>
                     </div>
                     <div class="border-bottom py-3">
-                        <a href="#" class="display-4 text-dark mb-0 link-hover">
+                        <a href="/news/@Model.MainNews.Id" class="display-4 text-dark mb-0 link-hover">
                             @Model.MainNews.Title
                         </a>
                     </div>
@@ -84,7 +81,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex flex-column">
-                                    <a href="#" class="h3">
+                                    <a href="/news/@Model.TopStory.Id" class="h3">
                                         @Model.TopStory.Title
                                     </a>
                                     <p class="mb-0 fs-5"><i class="fa fa-clock"> @TextHelpers.CalculateReadingTime(@Model.TopStory.LongDescription) minute read</i> </p>
@@ -122,7 +119,7 @@
                                     </div>
                                     <div class="col-7">
                                         <div class="features-content d-flex flex-column">
-                                            <a href="#" class="h6">
+                                            <a href="/news/@item.Id" class="h6">
                                                 @item.Title
                                             </a>
                                             <small><i class="fa fa-clock"> @TextHelpers.CalculateReadingTime(item.LongDescription) minute read</i> </small>
@@ -161,7 +158,7 @@
             </div>
             <div class="col-lg-5">
                 <div class="rounded">
-                    <img src="img/banner-img.jpg" class="img-fluid rounded w-100 rounded" alt="">
+                    <img src="/user/img/banner-img.jpg" class="img-fluid rounded w-100 rounded" alt="">
                 </div>
             </div>
         </div>
@@ -181,7 +178,7 @@
                             <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-top w-100" alt="@item.Title">
                         </div>
                         <div class="d-flex flex-column p-4">
-                            <a href="#" class="h4">
+                            <a href="/news/@item.Id" class="h4">
                                 @item.Title
                             </a>
                             <div class="d-flex justify-content-between">
@@ -246,7 +243,7 @@
                                                 </div>
                                             </div>
                                             <div class="my-4">
-                                                <a href="/News/Details/@latestNews.Id" class="h4">@latestNews.Title</a>
+                                                <a href="/news/@latestNews.Id" class="h4">@latestNews.Title</a>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="text-dark me-3"><i class="fa fa-clock"></i> @TextHelpers.CalculateReadingTime(latestNews.LongDescription) minute read</span>
@@ -272,7 +269,7 @@
                                                             <div class="col-7">
                                                                 <div class="features-content d-flex flex-column">
                                                                     <p class="text-uppercase mb-2">@categoryViewModel.Category.Title</p>
-                                                                    <a href="/News/Details/@newsItem.Id" class="h6">
+                                                                    <a href="/news/@newsItem.Id" class="h6">
                                                                         @newsItem.Title
                                                                     </a>
                                                                     <small class="text-body d-block">
@@ -310,7 +307,7 @@
                                         <img src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-top w-100" alt="@item.Title">
                                     </div>
                                     <div class="d-flex flex-column p-4">
-                                        <a href="#" class="h4">
+                                        <a href="/news/@item.Id" class="h4">
                                             @item.Title
                                         </a>
                                         <div class="d-flex justify-content-between">
@@ -327,41 +324,7 @@
                             </div>
                         }
                     </div>
-                    <div class="mt-5 lifestyle">
-                        <div class="border-bottom mb-4">
-                            <h1 class="mb-4">Life Style</h1>
-                        </div>
-                        <div class="row g-4">
-                            <div class="col-lg-6">
-                                <div class="lifestyle-item rounded">
-                                    <img src="img/lifestyle-1.jpg" class="img-fluid w-100 rounded" alt="">
-                                    <div class="lifestyle-content">
-                                        <div class="mt-auto">
-                                            <a href="#" class="h4 text-white link-hover">There are many variations of passages of Lorem Ipsum available,</a>
-                                            <div class="d-flex justify-content-between mt-4">
-                                                <a href="#" class="small text-white link-hover">By Willium Smith</a>
-                                                <small class="text-white d-block"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="lifestyle-item rounded">
-                                    <img src="img/lifestyle-2.jpg" class="img-fluid w-100 rounded" alt="">
-                                    <div class="lifestyle-content">
-                                        <div class="mt-auto">
-                                            <a href="#" class="h4 text-white link-hover">There are many variations of passages of Lorem Ipsum available,</a>
-                                            <div class="d-flex justify-content-between mt-4">
-                                                <a href="#" class="small text-white link-hover">By Willium Smith</a>
-                                                <small class="text-white d-block"><i class="fas fa-calendar-alt me-1"></i> Dec 9, 2024</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-﻿@model Tuple<List<News.Models.Db.Menu>,List<News.Models.Db.News>>
+﻿@model Tuple<List<News.Models.Db.Menu>,List<News.Models.Db.News>,News.Models.Db.Setting>
 
 
 <div class="container-fluid sticky-top px-0">
@@ -17,7 +17,7 @@
                         {
                             <div id="note" class="ps-2">
                                 @* <img src="/user/img/features-fashion.jpg" class="img-fluid rounded-circle border border-3 border-primary me-2" style="width: 30px; height: 30px;" alt=""> *@
-                                <a href="#">
+                                <a href="/news/@item.Id">
                                     <p class="text-white mb-0 link-hover">
                                         @item.Title
                                     </p>
@@ -27,16 +27,18 @@
                     </div>
                 </div>
                 <div class="top-link flex-lg-wrap">
-                    <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body">Tuesday, Sep 12, 2024</span></i>
+                    <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2">
+                        <span class="text-body">
+                            @DateTime.Now.ToString("MMM d, yyyy")
+                        </span>
+                    </i>
                     <div class="d-flex icon">
                         <p class="mb-0 text-white me-2">Follow Us:</p>
-                        <a href="" class="me-2"><i class="fab fa-facebook-f text-body link-hover"></i></a>
-                        <a href="" class="me-2"><i class="fab fa-twitter text-body link-hover"></i></a>
-                        <a href="" class="me-2"><i class="fab fa-instagram text-body link-hover"></i></a>
-                        <a href="" class="me-2"><i class="fab fa-youtube text-body link-hover"></i></a>
-                        <a href="" class="me-2"><i class="fab fa-linkedin-in text-body link-hover"></i></a>
-                        <a href="" class="me-2"><i class="fab fa-skype text-body link-hover"></i></a>
-                        <a href="" class=""><i class="fab fa-pinterest-p text-body link-hover"></i></a>
+                        <a href="@Model.Item3.Facebook" class="me-2"><i class="fab fa-facebook-f text-body link-hover"></i></a>
+                        <a href="@Model.Item3.Twitter" class="me-2"><i class="fab fa-twitter text-body link-hover"></i></a>
+                        <a href="@Model.Item3.Instagram" class="me-2"><i class="fab fa-instagram text-body link-hover"></i></a>
+                        <a href="@Model.Item3.Youtube" class="me-2"><i class="fab fa-youtube text-body link-hover"></i></a>
+                        <a href="@Model.Item3.Linkedin" class="me-2"><i class="fab fa-linkedin-in text-body link-hover"></i></a>
                     </div>
                 </div>
             </div>
@@ -45,8 +47,10 @@
     <div class="container-fluid bg-light">
         <div class="container px-0">
             <nav class="navbar navbar-light navbar-expand-xl">
-                <a href="index.html" class="navbar-brand mt-3">
-                    <p class="text-primary display-6 mb-2" style="line-height: 0;">Newsers</p>
+                <a href="/" class="navbar-brand mt-3">
+                    <p class="text-primary display-6 mb-2" style="line-height: 0;">
+                        @Model.Item3.Title
+                    </p>
                     <small class="text-body fw-normal" style="letter-spacing: 12px;">Nespaper</small>
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
