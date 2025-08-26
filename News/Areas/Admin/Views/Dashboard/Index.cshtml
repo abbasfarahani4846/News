@@ -1,1 +1,154 @@
-﻿Admin Panel
+﻿@model News.Models.ViewModels.AdminDashboardViewModel
+
+<div class="row">
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">News</p>
+                            <h4 class="card-title">@Model.NewsCount</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-info bubble-shadow-small">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Comments</p>
+                            <h4 class="card-title">@Model.CommentsCount</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-success bubble-shadow-small">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Categories</p>
+                            <h4 class="card-title">@Model.CategoriesCount</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Tags</p>
+                            <h4 class="card-title">@Model.TagsCount</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-round">
+            <div class="card-header">
+                <div class="card-head-row">
+                    <div class="card-title">User Statistics</div>
+                    <div class="card-tools">
+                        <a href="#"
+                           class="btn btn-label-success btn-round btn-sm me-2">
+                            <span class="btn-label">
+                                <i class="fa fa-pencil"></i>
+                            </span>
+                            Export
+                        </a>
+                        <a href="#" class="btn btn-label-info btn-round btn-sm">
+                            <span class="btn-label">
+                                <i class="fa fa-print"></i>
+                            </span>
+                            Print
+                        </a>
+                    </div>
+                </div>
+            </div>
+          
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="statisticsChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        // Serialize only the chart-related parts of the ViewModel into JS variables
+        var chartLabels = @Html.Raw(Json.Serialize(Model.ChartLabels));
+        var chartDataPoints = @Html.Raw(Json.Serialize(Model.ChartData));
+
+        var ctx = document.getElementById('statisticsChart').getContext('d');
+        var statisticsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                // Use the labels from our ViewModel
+                labels: chartLabels,
+                datasets: [{
+                    label: "Published News",
+                    borderColor: '#177dff',
+                    backgroundColor: 'rgba(23, 125, 255, 0.4)',
+                    fill: true,
+                    borderWidth: 2,
+                    // Use the data from our ViewModel
+                    data: chartDataPoints
+                }]
+            },
+            // The options object remains the same as the previous example
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                // ... other options
+            }
+        });
+    </script>
+}

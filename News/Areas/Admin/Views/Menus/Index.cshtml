@@ -2,7 +2,9 @@
 
 @{
     var parent = ViewBag.parent as News.Models.Db.Menu;
-    ViewData["Title"] = "Index " + (parent != null ? parent.Title : "");
+
+    ViewData["Title"] = "Menus";
+    ViewData["SubTitle"] = (parent != null ? parent.Title : "");
 }
 
 <p>
