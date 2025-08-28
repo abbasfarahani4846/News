@@ -196,6 +196,12 @@ namespace News.Areas.Admin.Controllers
             // Save the changes to the database.
             await _context.SaveChangesAsync();
 
+            // If the deleted menu is a sub-menu, redirect back to its parent's index page.
+            if (menu.ParentId != null)
+            {
+                return Redirect("/admin/menus/index/" + menu.ParentId);
+            }
+
             // Redirect to the index page.
             return RedirectToAction(nameof(Index));
         }
