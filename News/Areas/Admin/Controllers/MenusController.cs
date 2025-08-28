@@ -78,7 +78,7 @@ namespace News.Areas.Admin.Controllers
                 // redirect back to the index page for that parent.
                 if (menu.ParentId != null)
                 {
-                    return Redirect("/admin/menus?id=" + menu.ParentId);
+                    return Redirect("/admin/menus/index/" + menu.ParentId);
                 }
 
                 // If it's a top-level menu, redirect to the main index page.
@@ -147,7 +147,7 @@ namespace News.Areas.Admin.Controllers
                 // If the updated menu is a sub-menu, redirect back to its parent's index page.
                 if (menu.ParentId != null)
                 {
-                    return Redirect("/admin/menus?id=" + menu.ParentId);
+                    return Redirect("/admin/menus/index/" + menu.ParentId);
                 }
 
                 // If it's a top-level menu, redirect to the main index page.
