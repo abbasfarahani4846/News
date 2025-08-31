@@ -84,70 +84,91 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="card card-round">
+
+        <div class="card">
             <div class="card-header">
-                <div class="card-head-row">
-                    <div class="card-title">User Statistics</div>
-                    <div class="card-tools">
-                        <a href="#"
-                           class="btn btn-label-success btn-round btn-sm me-2">
-                            <span class="btn-label">
-                                <i class="fa fa-pencil"></i>
-                            </span>
-                            Export
-                        </a>
-                        <a href="#" class="btn btn-label-info btn-round btn-sm">
-                            <span class="btn-label">
-                                <i class="fa fa-print"></i>
-                            </span>
-                            Print
-                        </a>
-                    </div>
-                </div>
+                <h4 class="card-title">Published News per Month (@DateTime.Now.Year)</h4>
             </div>
-          
             <div class="card-body">
                 <div class="chart-container">
-                    <canvas id="statisticsChart"></canvas>
+                    <canvas id="monthlyNewsChart"></canvas>
                 </div>
             </div>
-
         </div>
+
     </div>
 </div>
 
-
-@section Scripts{
+@section Scripts {
     <script>
-        // Serialize only the chart-related parts of the ViewModel into JS variables
-        var chartLabels = @Html.Raw(Json.Serialize(Model.ChartLabels));
-        var chartDataPoints = @Html.Raw(Json.Serialize(Model.ChartData));
+        // Use $(document).ready() to ensure the HTML DOM is fully loaded before executing the script.
+        $(document).ready(function() {
 
-        var ctx = document.getElementById('statisticsChart').getContext('d');
-        var statisticsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                // Use the labels from our ViewModel
-                labels: chartLabels,
-                datasets: [{
-                    label: "Published News",
-                    borderColor: '#177dff',
-                    backgroundColor: 'rgba(23, 125, 255, 0.4)',
-                    fill: true,
-                    borderWidth: 2,
-                    // Use the data from our ViewModel
-                    data: chartDataPoints
-                }]
-            },
-            // The options object remains the same as the previous example
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    display: true,
-                    position: 'top'
-                },
-                // ... other options
+            // Serialize the C# ViewModel into a JavaScript object.
+            // ASP.NET Core's default JSON serializer automatically converts C# PascalCase properties (e.g., ChartLabels)
+            // to JavaScript camelCase properties (e.g., chartLabels).
+            var chartModel = @Html.Raw(Json.Serialize(Model));
+
+            // Get the canvas element where the chart will be drawn.
+            var canvasElement = document.getElementById('monthlyNewsChart');
+
+            // IMPORTANT: Check if the canvas element exists to prevent runtime errors.
+            if (canvasElement) {
+                var ctx = canvasElement.getContext('2d');
+
+                // Create a new Chart.js instance.
+                var myChart = new Chart(ctx, {
+                    type: 'line', // The type of chart we want to create.
+                    data: {
+                        // The labels for the X-axis (e.g., "Jan", "Feb").
+                        labels: chartModel.chartLabels,
+
+                        // 'datasets' is an array of objects. Each object represents a line on the chart.
+                        datasets: [
+                        {
+                            // --- First Dataset: NEWS ---
+                            label: "Published News",
+                            borderColor: '#1572e8', // Blue color for the line.
+                            backgroundColor: 'rgba(23, 125, 255, 0.2)', // Light blue for the area under the line.
+                            fill: true,
+                            borderWidth: 2,
+                            tension: 0.4, // Makes the line curvy instead of sharp.
+                            data: chartModel.chartData // The data points for the news line.
+                        },
+                        {
+                            // --- NEW Second Dataset: COMMENTS ---
+                            label: "Published Comments",
+                            borderColor: '#48abf7', // Green color for the line to distinguish it.
+                            backgroundColor: 'rgba(40, 167, 69, 0.2)', // Light green for the area fill.
+                            fill: true,
+                            borderWidth: 2,
+                            tension: 0.4,
+                            // Use the new data property from our ViewModel.
+                            data: chartModel.chartDataComments
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Important for fitting the chart in a container.
+                        plugins: {
+                            legend: {
+                                display: true, // Show the legend at the top (e.g., "Published News").
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true, // Ensure the Y-axis starts at 0.
+                                ticks: {
+                                    precision: 0 // Prevent decimal values on the Y-axis (e.g., 1.5).
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Log an error to the browser console if the canvas element is not found.
+                console.error("Error: Canvas element with ID 'monthlyNewsChart' was not found on the page.");
             }
         });
     </script>

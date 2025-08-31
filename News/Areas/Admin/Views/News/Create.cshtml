@@ -41,10 +41,19 @@
                 <label class="control-label">
                     Tags
                 </label>
-                <select asp-for="Tags" asp-items="ViewBag.Tags" class="form-control" multiple="multiple" size="5">
+                <select asp-for="Tags" asp-items="ViewBag.Tags" class="form-control" multiple="multiple">
                    
                 </select>
                 <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    Users
+                </label>
+                <select asp-for="UserId" asp-items="ViewBag.Users" class="form-control">
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
 
             <div class="form-group">

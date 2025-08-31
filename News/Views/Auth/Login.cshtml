@@ -1,0 +1,51 @@
+﻿@model News.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body">
+                    <section>
+                        <form asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+
+                            <!-- This div shows model-level errors (e.g., "Invalid username or password") -->
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                            <!-- Username Field -->
+                            <div class="mb-3">
+                                <label asp-for="Username" class="form-label"></label>
+                                <input asp-for="Username" class="form-control" autocomplete="username" aria-required="true" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+
+                            <!-- Password Field -->
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <!-- Remember Me Checkbox -->
+                            <div class="mb-3 form-check">
+                                <input class="form-check-input" asp-for="RememberMe" />
+                                <label class="form-check-label" asp-for="RememberMe"></label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div>
+                                <button type="submit" class="w-100 btn btn-primary">Log in</button>
+                            </div>
+
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

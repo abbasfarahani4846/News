@@ -13,19 +13,19 @@
     <script src="/admin/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
-          google: { families: ["Public Sans:300,400,500,600,700"] },
-          custom: {
-            families: [
-              "Font Awesome 5 Solid",
-              "Font Awesome 5 Regular",
-              "Font Awesome 5 Brands",
-              "simple-line-icons",
-            ],
-            urls: ["/admin/assets/css/fonts.min.css"],
-          },
-          active: function () {
-            sessionStorage.fonts = true;
-          },
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+        families: [
+        "Font Awesome 5 Solid",
+        "Font Awesome 5 Regular",
+        "Font Awesome 5 Brands",
+        "simple-line-icons",
+        ],
+        urls: ["/admin/assets/css/fonts.min.css"],
+        },
+        active: function () {
+        sessionStorage.fonts = true;
+        },
         });
     </script>
 
@@ -67,44 +67,50 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
-                        <li class="nav-item">
-                            <a href="/admin">
-                                <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/menus">
-                                <i class="fas fa-list"></i>
-                                <p>Menus</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/Tags">
-                                <i class="fas fa-list"></i>
-                                <p>Tags</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/Categories">
-                                <i class="fas fa-list"></i>
-                                <p>Categories</p>
-                            </a>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+
+                            <li class="nav-item">
+                                <a href="/admin">
+                                    <i class="fas fa-home"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/menus">
+                                    <i class="fas fa-list"></i>
+                                    <p>Menus</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/Tags">
+                                    <i class="fas fa-list"></i>
+                                    <p>Tags</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/Categories">
+                                    <i class="fas fa-list"></i>
+                                    <p>Categories</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/admin/Settings/edit">
+                                    <i class="fas fa-list"></i>
+                                    <p>
+                                        Manage site
+                                    </p>
+                                </a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a href="/admin/News">
                                 <i class="fas fa-list"></i>
                                 <p>News</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/admin/Settings/edit">
-                                <i class="fas fa-list"></i>
-                                <p>
-                                    Manage site
-                                </p>
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
             </div>

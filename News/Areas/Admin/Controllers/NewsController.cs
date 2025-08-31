@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -50,6 +52,13 @@ namespace News.Areas.Admin.Controllers
 
                 // --- 3. Start the main query ---
                 IQueryable<News.Models.Db.News> query = _context.News.AsQueryable();
+
+                // if is  not admin, show only their news
+                if (!User.IsInRole("Admin"))
+                {
+                    var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString());
+                    query = query.Where(news => news.UserId == userId);
+                }
 
                 // --- 4. Get total records count (before filtering) ---
                 var recordsTotal = await query.CountAsync();
@@ -125,6 +134,7 @@ namespace News.Areas.Admin.Controllers
         {
             ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Title");
             ViewBag.Tags = new SelectList(await _context.Tags.ToListAsync(), "Title", "Title");
+            ViewBag.Users = new SelectList(await _context.Users.ToListAsync(), "Id", "FullName");
 
             return View();
         }
@@ -134,7 +144,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,IsTrend,ImageName,CategoryId")] News.Models.Db.News news, IFormFile ImageName, string[] tags)
+        public async Task<IActionResult> Create([Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,IsTrend,ImageName,CategoryId,UserId")] News.Models.Db.News news, IFormFile ImageName, string[] tags)
         {
             if (ModelState.IsValid)
             {
@@ -195,6 +205,7 @@ namespace News.Areas.Admin.Controllers
 
             ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Title");
             ViewBag.Tags = new SelectList(await _context.Tags.ToListAsync(), "Title", "Title");
+            ViewBag.Users = new SelectList(await _context.Users.ToListAsync(), "Id", "FullName");
             return View(news);
         }
 
@@ -216,6 +227,7 @@ namespace News.Areas.Admin.Controllers
 
             var selectedTagIds = news.Tags?.Split(',').ToList() ?? new List<string>();
             ViewBag.Tags = new MultiSelectList(await _context.Tags.ToListAsync(), "Title", "Title", selectedTagIds);
+            ViewBag.Users = new SelectList(await _context.Users.ToListAsync(), "Id", "FullName", news.UserId);
 
             return View(news);
         }
@@ -225,7 +237,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,IsTrend,ImageName,CategoryId")] News.Models.Db.News news, IFormFile? image, string[] tags)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,IsTrend,ImageName,CategoryId,UserId")] News.Models.Db.News news, IFormFile? image, string[] tags)
         {
             if (id != news.Id)
             {
@@ -308,6 +320,7 @@ namespace News.Areas.Admin.Controllers
 
             var selectedTagIds = news.Tags?.Split(',').ToList() ?? new List<string>();
             ViewBag.Tags = new MultiSelectList(await _context.Tags.ToListAsync(), "Title", "Title", selectedTagIds);
+            ViewBag.Users = new SelectList(await _context.Users.ToListAsync(), "Id", "FullName", news.UserId);
 
             return View(news);
         }
