@@ -89,26 +89,15 @@ namespace News.Areas.Admin.Controllers
             {
                 try
                 {
-                    // 3. Fetch the original entity from the database to update it.
-                    var settingToUpdate = await _context.Settings.FirstOrDefaultAsync();
-                    if (settingToUpdate == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // 4. Update the simple properties from the bound 'setting' object.
-                    settingToUpdate.MainNews = setting.MainNews;
-                    settingToUpdate.TopStory = settingToUpdate.TopStory;
 
                     // 5. Manually join the lists and update the multi-select properties.
                     //    The model binder has already correctly populated 'FeaturesNews' and 'BestNews' lists.
-                    settingToUpdate.FeaturesNews = (FeaturesNews != null) ? string.Join(",", FeaturesNews) : "";
-                    settingToUpdate.BestNews = (BestNews != null) ? string.Join(",", BestNews) : "";
+                    setting.FeaturesNews = (FeaturesNews != null) ? string.Join(",", FeaturesNews) : "";
+                    setting.BestNews = (BestNews != null) ? string.Join(",", BestNews) : "";
 
-                    settingToUpdate.MainPageCategories = (MainPageCategories != null) ? string.Join(",", MainPageCategories) : "";
+                    setting.MainPageCategories = (MainPageCategories != null) ? string.Join(",", MainPageCategories) : "";
 
-
-                    // 6. Save the changes.
+                    _context.Settings.Update(setting);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

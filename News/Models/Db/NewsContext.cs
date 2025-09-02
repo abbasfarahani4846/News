@@ -85,7 +85,6 @@ public partial class NewsContext : DbContext
             entity.Property(e => e.FeaturesNews).HasMaxLength(50);
             entity.Property(e => e.Instagram).HasMaxLength(50);
             entity.Property(e => e.Linkedin).HasMaxLength(50);
-            entity.Property(e => e.Logo).HasMaxLength(50);
             entity.Property(e => e.MainPageCategories).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(50);
             entity.Property(e => e.Title).HasMaxLength(50);

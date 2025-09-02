@@ -19,8 +19,6 @@ public partial class Setting
 
     public string? Title { get; set; }
 
-    public string? Logo { get; set; }
-
     public string? Address { get; set; }
 
     public string? Email { get; set; }
