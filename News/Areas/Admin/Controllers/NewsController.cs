@@ -144,7 +144,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,IsTrend,ImageName,CategoryId,UserId")] News.Models.Db.News news, IFormFile ImageName, string[] tags)
+        public async Task<IActionResult> Create([Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,ImageName,CategoryId,UserId")] News.Models.Db.News news, IFormFile ImageName, string[] tags)
         {
             if (ModelState.IsValid)
             {
@@ -237,7 +237,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,IsTrend,ImageName,CategoryId,UserId")] News.Models.Db.News news, IFormFile? image, string[] tags)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ShortDescription,LongDescription,CreatedAt,ViewCount,Status,ImageName,CategoryId,UserId")] News.Models.Db.News news, IFormFile? image, string[] tags)
         {
             if (id != news.Id)
             {

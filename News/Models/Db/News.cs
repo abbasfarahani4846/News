@@ -19,8 +19,6 @@ public partial class News
 
     public string Status { get; set; } = null!;
 
-    public bool IsTrend { get; set; }
-
     public string? ImageName { get; set; }
 
     public int? CategoryId { get; set; }
