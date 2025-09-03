@@ -179,7 +179,10 @@
                                                 <h4>@User.Identity.Name</h4>
                                                 @* Display the user's email from their email claim *@
                                                 <p class="text-muted">@User.FindFirstValue(ClaimTypes.Email)</p>
-                                                <a href="/admin/users/edit/@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <a href="/admin/users/edit/@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                }
                                             </div>
                                         </div>
                                     </li>

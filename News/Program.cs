@@ -16,7 +16,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Auth/Login";
 
         // Sets the path for the access denied page.
-        options.AccessDeniedPath = "/Home/AccessDenied"; // Optional: Create a view for this.
+        options.AccessDeniedPath = "/Auth/Login"; // Optional: Create a view for this.
 
         // Sets the expiration time for the cookie.
         options.ExpireTimeSpan = TimeSpan.FromDays(10);
