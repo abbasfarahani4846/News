@@ -26,14 +26,15 @@ namespace News.Areas.Admin.Controllers
         // GET: Admin/Comments
         public async Task<IActionResult> Index(int id)
         {
-            if (id == 0)
+            if (id != 0)
             {
-                return Redirect("/admin/news");
+                ViewData["news"] = await _context.News.FirstOrDefaultAsync(x => x.Id == id);
+                return View(await _context.Comments.Where(x => x.NewsId == id).OrderByDescending(x=>x.Id).ToListAsync());
             }
 
-            ViewData["news"] = await _context.News.FirstOrDefaultAsync(x => x.Id == id);
 
-            return View(await _context.Comments.Where(x => x.NewsId == id).ToListAsync());
+
+            return View(await _context.Comments.OrderByDescending(x => x.Id).ToListAsync());
         }
 
 

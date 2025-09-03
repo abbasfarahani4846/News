@@ -78,7 +78,7 @@ namespace News.Controllers
             _context.News.Update(news);
             await _context.SaveChangesAsync();
 
-            var comments = await _context.Comments.Where(x => x.NewsId == id).OrderByDescending(x => x.Id).ToListAsync();
+            var comments = await _context.Comments.Where(x => x.NewsId == id && x.IsApproved).OrderByDescending(x => x.Id).ToListAsync();
 
             var categories = await _context.Categories.ToListAsync();
 

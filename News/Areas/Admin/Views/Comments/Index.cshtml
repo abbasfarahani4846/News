@@ -4,7 +4,7 @@
     var news = ViewData["news"] as News.Models.Db.News;
 
     ViewData["Title"] = "Comments";
-    ViewData["SubTitle"] = news.Title;
+    ViewData["SubTitle"] = news?.Title;
 }
 
 <table class="table">
