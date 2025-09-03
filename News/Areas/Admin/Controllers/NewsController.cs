@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,6 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace News.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class NewsController : Controller
     {
         private readonly NewsContext _context;

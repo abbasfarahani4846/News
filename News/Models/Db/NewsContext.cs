@@ -23,6 +23,10 @@ public partial class NewsContext : DbContext
 
     public virtual DbSet<News> News { get; set; }
 
+    public virtual DbSet<NewsView> NewsViews { get; set; }
+
+    public virtual DbSet<PopularNews> PopularNews { get; set; }
+
     public virtual DbSet<Setting> Settings { get; set; }
 
     public virtual DbSet<Subscriber> Subscribers { get; set; }
@@ -65,6 +69,35 @@ public partial class NewsContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.ImageName).HasMaxLength(50);
+            entity.Property(e => e.ShortDescription).HasMaxLength(200);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Tags).HasMaxLength(500);
+            entity.Property(e => e.Title).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<NewsView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("NewsView");
+
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.FullName).HasMaxLength(50);
+            entity.Property(e => e.ImageName).HasMaxLength(50);
+            entity.Property(e => e.ShortDescription).HasMaxLength(200);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Tags).HasMaxLength(500);
+            entity.Property(e => e.Title).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<PopularNews>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("PopularNews");
+
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.ImageName).HasMaxLength(50);
             entity.Property(e => e.ShortDescription).HasMaxLength(200);

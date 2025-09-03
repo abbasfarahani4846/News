@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<News.Models.Db.Tag>
 
 @{
-    ViewData["Title"] = "Tags List";
+    ViewData["Title"] = "Tags";
 }
-
 <p>
     <a asp-action="Create" class="btn btn-outline-success">Create New</a>
 </p>
@@ -22,10 +21,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Edit" class="btn btn-link btn-primary">
+                        <i class="fa fa-edit"></i>
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Remove" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
         </tr>
 }
     </tbody>

@@ -13,8 +13,8 @@ namespace News.Models.ViewModels
         // For lists of news items like FeaturesNews and BestNews
         public List<News.Models.Db.News> FeaturesNews { get; set; } = new List<News.Models.Db.News>();
         public List<News.Models.Db.News> BestNews { get; set; } = new List<News.Models.Db.News>();
-        public List<News.Models.Db.News> LastNews { get; set; } = new List<News.Models.Db.News>();
-        public List<News.Models.Db.News> MostViewsNews { get; set; } = new List<News.Models.Db.News>();
+        public List<News.Models.Db.NewsView> LastNews { get; set; } = new List<News.Models.Db.NewsView>();
+        public List<News.Models.Db.NewsView> MostViewsNews { get; set; } = new List<News.Models.Db.NewsView>();
 
         public List<MainPageCategoryViewModel> MainPageCategories { get; set; } = new List<MainPageCategoryViewModel>();
 

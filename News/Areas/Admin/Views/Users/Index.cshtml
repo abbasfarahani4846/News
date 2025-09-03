@@ -1,11 +1,13 @@
-﻿@model IEnumerable<News.Models.Db.Comment>
+﻿@model IEnumerable<News.Models.Db.User>
 
 @{
-    var news = ViewData["news"] as News.Models.Db.News;
-
-    ViewData["Title"] = "Comments";
-    ViewData["SubTitle"] = news.Title;
+    ViewData["Title"] = "Menus";
 }
+
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">Create New</a>
+</p>
 
 <table class="table">
     <thead>
@@ -14,16 +16,13 @@
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Username)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CommentText)
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsApproved)
+                @Html.DisplayNameFor(model => model.IsAdmin)
             </th>
             <th></th>
         </tr>
@@ -36,16 +35,13 @@
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.Username)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CommentText)
+                    @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsApproved)
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
                 </td>
                 <td>
                     <a asp-action="Edit"

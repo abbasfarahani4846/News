@@ -104,13 +104,13 @@ namespace News.Controllers
                 }
             }
 
-            viewModel.LastNews = await _context.News
+            viewModel.LastNews = await _context.NewsViews
                                              .OrderByDescending(x => x.Id)
                                              .Take(10)
                                              .ToListAsync();
 
 
-            viewModel.MostViewsNews = await _context.News
+            viewModel.MostViewsNews = await _context.NewsViews
                                           .OrderByDescending(x => x.ViewCount)
                                           .Take(10)
                                           .ToListAsync();

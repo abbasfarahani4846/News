@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<News.Models.Db.Category>
 
 @{
-    ViewData["Title"] = "Manage Categories";
+    ViewData["Title"] = "Manage";
 }
 
 
@@ -29,10 +29,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Edit" class="btn btn-link btn-primary">
+                        <i class="fa fa-edit"></i>
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" title="Remove" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
         </tr>
 }
     </tbody>

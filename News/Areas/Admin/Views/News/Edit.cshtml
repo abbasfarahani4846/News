@@ -1,10 +1,8 @@
 ﻿@model News.Models.Db.News
-
 @{
-    ViewData["Title"] = "Edit " + Model.Title;
+    ViewData["Title"] = "Edit";
+    ViewData["SubTitle"] = Model.Title;
 }
-
-
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Edit" enctype="multipart/form-data">

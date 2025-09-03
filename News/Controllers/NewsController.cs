@@ -88,29 +88,7 @@ namespace News.Controllers
 
             var currentNewsId = news.Id;
 
-            var popularNews = await _context.Comments
-                // 1. Group all comments by the news ID they belong to.
-                .GroupBy(c => c.NewsId)
-                // 2. Project the result into a new object with NewsId and the count of comments.
-                .Select(group => new {
-                    NewsId = group.Key,
-                    CommentCount = group.Count()
-                })
-                // 3. Order the groups by the comment count in descending order (most popular first).
-                .OrderByDescending(x => x.CommentCount)
-                // 4. Take the top 5 most popular news IDs.
-                .Take(5)
-                // 5. Join this result with the actual News table to get the full news details.
-                .Join(
-                    _context.News,
-                    commentGroup => commentGroup.NewsId, // Key from our comment count result
-                    newsEntity => newsEntity.Id,         // Key from the News table
-                    (commentGroup, newsEntity) => newsEntity // Select the whole news object
-                )
-                // 6. Optionally, exclude the current news article from the popular list.
-                .Where(n => n.Id != currentNewsId)
-                // 7. Execute the query and get the final list.
-                .ToListAsync();
+            var popularNews = await _context.PopularNews.OrderByDescending(x => x.CommentCount).Take(5).ToListAsync();
 
 
             var result = new NewsDetailsViewModel()
