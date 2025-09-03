@@ -65,12 +65,6 @@ namespace News.Controllers
                         new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
                     };
 
-                    // If user.IsAdmin is true, we can add another specific claim if needed.
-                    if (user.IsAdmin)
-                    {
-                        claims.Add(new Claim("AdminSpecificPermission", "CanDeleteUsers")); // Example
-                    }
-
                     // --- Create Identity & Principal ---
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties

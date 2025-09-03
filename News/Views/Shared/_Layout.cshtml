@@ -51,13 +51,14 @@
                     <form asp-action="Index" asp-controller="News" method="get" class="w-100">
                         <div class="input-group w-75 mx-auto d-flex">
                             <input type="search" class="form-control p-3" placeholder="keywords" name="searchTerm" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                            <button type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
     <!-- Modal Search End -->
     @RenderBody()
 
