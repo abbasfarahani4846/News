@@ -374,30 +374,64 @@ namespace News.Areas.Admin.Controllers
             return _context.News.Any(e => e.Id == id);
         }
 
-        [HttpPost]
-        [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> UploadImage(IFormFile upload)
-        {
-            if (upload?.Length > 0)
-            {
-                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(upload.FileName)}";
-                var folderPath = Path.Combine("images", "news"); // مسیر نسبی داخل wwwroot
-                var saveDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", folderPath);
+/// <summary>
+/// Handles asynchronous image uploads specifically for the CKEditor 5 WYSIWYG editor.
+/// This endpoint receives a file via a POST request, saves it to a designated folder
+/// within the web root (wwwroot), and returns a JSON object containing the public URL
+/// of the uploaded file, which CKEditor then uses to display the image.
+/// </summary>
+/// <param name="upload">
+/// The uploaded file, sent from the client-side CKEditor upload adapter.
+/// The parameter name 'upload' must match the key used in the FormData object on the client side.
+/// </param>
+/// <returns>
+/// On success, an JsonResult with a 'url' property (e.g., { "url": "/images/news/some-guid.jpg" }).
+/// On failure (e.g., no file uploaded), a BadRequest result.
+/// </returns>
+[HttpPost]
+// Disables the anti-forgery token validation for this specific action.
+// This is often necessary for AJAX-based file uploaders like CKEditor's, which may not
+// automatically send the token. Use with caution and consider alternative security measures if needed.
+[IgnoreAntiforgeryToken]
+public async Task<IActionResult> UploadImage(IFormFile upload)
+{
+    // 1. VALIDATION: Check if a file was actually sent and has content.
+    if (upload?.Length > 0)
+    {
+        // 2. FILE NAMING: Generate a unique filename to prevent conflicts and overwriting existing files.
+        // Using a GUID is a standard practice for ensuring uniqueness.
+        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(upload.FileName)}";
 
-                Directory.CreateDirectory(saveDir); // ساخت پوشه در صورت نبود
+        // 3. PATH CONSTRUCTION: Define the storage path for the image.
+        // The relative path within the 'wwwroot' directory. This keeps uploads organized.
+        var folderPath = Path.Combine("images", "news");
+        // The absolute physical path on the server where the file will be saved.
+        var saveDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", folderPath);
 
-                var filePath = Path.Combine(saveDir, fileName);
-                await using var stream = new FileStream(filePath, FileMode.Create);
-                await upload.CopyToAsync(stream);
+        // 4. DIRECTORY CREATION: Ensure the target directory exists. If not, create it.
+        // This prevents exceptions if the folder structure is not already in place.
+        Directory.CreateDirectory(saveDir);
 
-                // آدرس برای مرورگر
-                var url = $"/{folderPath.Replace("\\", "/")}/{fileName}";
-                return Json(new { url });
-            }
+        // 5. FILE SAVING: Create the full path for the new file and save it to the disk.
+        var filePath = Path.Combine(saveDir, fileName);
+        // Use an async file stream to write the file. 'await using' ensures proper disposal.
+        await using var stream = new FileStream(filePath, FileMode.Create);
+        // Copy the contents of the uploaded file to the destination stream.
+        await upload.CopyToAsync(stream);
 
-            return BadRequest(new { message = "No file uploaded." });
-        }
+        // 6. RESPONSE: Construct the public URL that the browser will use to access the image.
+        // It's crucial that this path is relative to the web root.
+        // Replace backslashes with forward slashes for URL compatibility.
+        var url = $"/{folderPath.Replace("\\", "/")}/{fileName}";
 
+        // Return a JSON object in the format expected by the CKEditor upload adapter.
+        // The client-side script is specifically looking for this 'url' property.
+        return Json(new { url });
+    }
+
+    // If no file was provided in the request, return an HTTP 400 Bad Request response.
+    return BadRequest(new { message = "No file uploaded or file is empty." });
+}
 
     }
 }
