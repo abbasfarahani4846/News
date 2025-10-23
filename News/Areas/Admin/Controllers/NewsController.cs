@@ -355,11 +355,17 @@ namespace News.Areas.Admin.Controllers
             {
                 string d = Directory.GetCurrentDirectory();
                 string fn = d + "\\wwwroot\\images\\news\\" + news.ImageName;
+                string fnThumb = d + "\\wwwroot\\images\\news\\thumb_" + news.ImageName;
 
                 //------------------------------------------------
                 if (System.IO.File.Exists(fn))
                 {
                     System.IO.File.Delete(fn);
+                }
+
+                 if (System.IO.File.Exists(fnThumb))
+                {
+                    System.IO.File.Delete(fnThumb);
                 }
 
                 _context.News.Remove(news);
