@@ -80,9 +80,9 @@ namespace News.Controllers
 
             var comments = await _context.Comments.Where(x => x.NewsId == id && x.IsApproved).OrderByDescending(x => x.Id).ToListAsync();
 
-            var categories = await _context.Categories.ToListAsync();
+            var popularCategories = await _context.PopularCategories.OrderByDescending(x => x.NewsCount).Take(10).ToListAsync();
 
-            var category = categories.FirstOrDefault(x => x.Id == news.CategoryId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == news.CategoryId);
 
             var relatedNews = await _context.News.Where(x => x.CategoryId == category.Id && x.Id != news.Id).Take(2).ToListAsync();
 
@@ -98,8 +98,8 @@ namespace News.Controllers
                 Category = category,
                 ReadingTimeInMinutes = TextHelpers.CalculateReadingTime(news.LongDescription),
                 RelatedNews = relatedNews,
-                Categories = categories,
-                Popular = popularNews
+                PopularCategories = popularCategories,
+                PopularNews = popularNews
             };
 
 

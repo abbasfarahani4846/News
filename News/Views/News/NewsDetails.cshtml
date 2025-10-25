@@ -195,7 +195,7 @@
                             </form>
                             <h4 class="mb-4">Popular Categories</h4>
                             <div class="row g-2">
-                                @foreach (var item in Model.Categories)
+                                @foreach (var item in Model.PopularCategories)
                                 {
                                     <div class="col-12">
                                         <a href="/news?categoryId=@item.Id" class="link-hover btn btn-light w-100 rounded text-uppercase text-dark py-3">
@@ -206,7 +206,7 @@
                             </div>
                             <h4 class="my-4">Popular News</h4>
                             <div class="row g-4">
-                                @foreach (var item in Model.Popular)
+                                @foreach (var item in Model.PopularNews)
                                 {
                                     <div class="col-12">
                                         <div class="row g-4 align-items-center features-item">
