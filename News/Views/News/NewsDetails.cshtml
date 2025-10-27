@@ -54,14 +54,13 @@
                                 foreach (var item in tags)
                                 {
                                     <li class="nav-item mb-3">
-                                        <a class="d-flex py-2 bg-light rounded-pill active me-2" data-bs-toggle="pill" href="/news?tag=@item">
+                                        <a class="d-flex py-2 bg-light rounded-pill active me-2" href="/news?tag=@item">
                                             <span class="text-dark" style="width: 100px;">
                                                 @item
                                             </span>
                                         </a>
                                     </li>
                                 }
-
                             }
                         </ul>
                         <div class="d-flex align-items-center">
