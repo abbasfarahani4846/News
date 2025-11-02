@@ -9,6 +9,8 @@
     <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="NewsId" />
             <input type="hidden" asp-for="CreatedAt" />

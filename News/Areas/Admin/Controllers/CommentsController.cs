@@ -32,6 +32,7 @@ namespace News.Areas.Admin.Controllers
                 return View(await _context.Comments.Where(x => x.NewsId == id).OrderByDescending(x=>x.Id).ToListAsync());
             }
 
+           
 
 
             return View(await _context.Comments.OrderByDescending(x => x.Id).ToListAsync());
@@ -51,6 +52,9 @@ namespace News.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString();
+
             return View(comment);
         }
 
@@ -59,7 +63,7 @@ namespace News.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Email,CommentText,CreatedAt,IsApproved,NewsId")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Email,CommentText,CreatedAt,IsApproved,NewsId")] Comment comment, string returnUrl)
         {
             if (id != comment.Id)
             {
@@ -84,7 +88,12 @@ namespace News.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return Redirect("/admin/comments?id=" + comment.NewsId);
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return Redirect("/admin/comments");
             }
             return View(comment);
         }
@@ -104,13 +113,15 @@ namespace News.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString();
+
             return View(comment);
         }
 
         // POST: Admin/Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
             var comment = await _context.Comments.FindAsync(id);
             if (comment != null)
@@ -119,7 +130,13 @@ namespace News.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return Redirect("/admin/comments?id=" + comment.NewsId);
+
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return Redirect("/admin/comments");
         }
 
         private bool CommentExists(int id)
