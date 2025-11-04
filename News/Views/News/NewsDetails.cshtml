@@ -110,7 +110,7 @@
                 </div>
                 <div class="bg-light rounded p-4">
                     <h4 class="mb-4">Comments</h4>
-                    @if (Model.RelatedNews.Any())
+                    @if (Model.Comments.Any())
                     {
                         foreach (var item in Model.Comments)
                         {
@@ -141,9 +141,9 @@
                     <h4 class="mb-4">Leave A Comment</h4>
                     @{
                         var commentModel = new News.Models.Db.Comment
-            {
-                NewsId = Model.News.Id
-            };
+                        {
+                            NewsId = Model.News.Id
+                        };
                     }
 
                     <form action="/news/SubmitComment" method="post" id="comment-form">
