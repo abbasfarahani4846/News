@@ -27,6 +27,46 @@
 
     <!-- Template Stylesheet -->
     <link href="/user/css/style.css" rel="stylesheet">
+
+    <style>
+        /* --- 1. Set a fixed height for images --- */
+        .latest-news-item .img-zoomin {
+            height: 240px; /* Desired height. You can adjust this value. */
+            width: 100%;
+            object-fit: cover; /* Ensures the image fills the container without distortion */
+        }
+
+        /* --- 2. Limit the title to 3 lines --- */
+        .latest-news-item .p-4 > a.h4 {
+            /* Activate line-clamp mode */
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Number of allowed lines: 3 */
+            -webkit-box-orient: vertical;
+            overflow: hidden; /* Hide the extra text */
+            text-overflow: ellipsis; /* Show ellipsis (...) at the end */
+            /* Set a uniform height for all cards */
+            /* Important: This ensures that even 1-line titles occupy the space of 3 lines, keeping cards aligned */
+            line-height: 1.5em; /* Line height (adjust based on your font) */
+            min-height: 4.5em; /* Result: 3 lines * 1.5em = 4.5em */
+            /* A little bottom margin for better spacing */
+            margin-bottom: 1rem;
+        }
+
+        /* --- 3. (Optional) Ensure alignment of author/date at the card bottom --- */
+        /* This ensures the entire card (.bg-light) takes up 100% of the item's height */
+        .latest-news-item .bg-light {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* This makes the content area (.p-4) expand to fill any remaining vertical space,
+           pushing the date/author section to the bottom. */
+        .latest-news-item .d-flex.flex-column.p-4 {
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 
 <body>
