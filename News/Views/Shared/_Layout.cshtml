@@ -66,6 +66,36 @@
             flex-grow: 1;
             justify-content: space-between;
         }
+
+
+        /* محدود کردن متن به 2 خط با سه نقطه */
+        .features-content a.h6 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+        }
+
+        /* سایز ثابت برای عکس‌های دایره‌ای */
+        .features-item .rounded-circle img {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* اطمینان از دایره‌ای بودن کانتینر عکس - فقط div ها نه span */
+        .features-item .col-4 > div.rounded-circle {
+            width: 80px;
+            height: 80px;
+        }
+
+        .features-item .overflow-hidden.rounded-circle {
+            width: 80px;
+            height: 80px;
+        }
     </style>
 </head>
 
