@@ -78,22 +78,16 @@ namespace News.Controllers
                                                  .Where(c => mainPageCategoriesIds.Contains(c.Id))
                                                  .ToListAsync();
 
-                // Step 3: Fetch all the news that belong to ANY of these categories in another single query.
-                // We also order them by creation date to get the latest ones.
-                var allNewsForCategories = await _context.News
-                                                   .Where(n => n.CategoryId.HasValue && mainPageCategoriesIds.Contains(n.CategoryId.Value))
-                                                   .OrderByDescending(n => n.CreatedAt)
-                                                   .ToListAsync();
-
-                // Step 4: Now, in memory, build the final ViewModel structure.
+                // Step 3: Now, in memory, build the final ViewModel structure.
                 foreach (var category in selectedCategories)
                 {
                     // For each category, find its corresponding news from the list we fetched.
                     // We take the top 4 latest news for each category. You can change this number.
-                    var newsForThisCategory = allNewsForCategories
-                                                .Where(n => n.CategoryId == category.Id)
-                                                .Take(4)
-                                                .ToList();
+                    var newsForThisCategory = await _context.News
+                                                   .Where(n => n.CategoryId == category.Id)
+                                                   .OrderByDescending(n => n.CreatedAt)
+                                                   .Take(5)
+                                                   .ToListAsync();
 
                     // Create the MainPageCategoryViewModel and add it to the main list.
                     viewModel.MainPageCategories.Add(new MainPageCategoryViewModel

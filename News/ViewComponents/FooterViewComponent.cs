@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using News.Models.Db;
 using News.Models.ViewModels;
 
+using NuGet.Configuration;
+
 namespace News.ViewComponents
 {
     public class FooterViewComponent : ViewComponent
@@ -19,9 +21,15 @@ namespace News.ViewComponents
         {
             var result = new FooterViewModel();
 
-            result.Categories = await _context.Categories.ToListAsync();
+            result.Settings = await _context.Settings.FirstAsync();
 
-            result.Settings = await _context.Settings.FirstOrDefaultAsync();
+            // Step 1: Get the list of selected category IDs from the settings string.
+            var mainPageCategoriesIds = result.Settings.MainPageCategories.Split(',').Select(int.Parse).ToList();
+
+            // Step 2: Fetch all the required Category objects in a single query.
+            result.Categories = await _context.Categories
+                                             .Where(c => mainPageCategoriesIds.Contains(c.Id))
+                                             .ToListAsync();
 
             result.RecentPosts = await _context.News
                 .Where(x => x.Status == "PUBLISH")
