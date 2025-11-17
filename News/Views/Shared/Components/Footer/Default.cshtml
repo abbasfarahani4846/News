@@ -54,10 +54,11 @@
             <div class="col-lg-6 col-xl-3">
                 <div class="footer-item-2">
                     <h4 class="mb-4 text-white">Recent Posts</h4>
-                    <div class="d-flex flex-column mb-4">
-                        @foreach (var item in Model.RecentPosts)
-                        {
-                            <a href="#">
+
+                    @foreach (var item in Model.RecentPosts)
+                    {
+                        <div class="d-flex flex-column mb-5">
+                            <a href="/news/@item.Id">
                                 <div class="d-flex align-items-center">
                                     <div class="rounded-circle border border-2 border-primary overflow-hidden">
                                         <img style="max-width:100px" src="/images/news/thumb_@item.ImageName" class="img-zoomin img-fluid rounded-circle w-100 circle-img-80" alt="@item.Title">
@@ -73,8 +74,9 @@
                                     </div>
                                 </div>
                             </a>
-                        }
-                    </div>
+                        </div>
+                    }
+
                 </div>
             </div>
             <div class="col-lg-6 col-xl-3">
