@@ -157,14 +157,10 @@
                 var emailInput = form.find('.newsletter-email-input');
                 var submitButton = form.find('button[type="submit"]');
 
-                // Find the message div that is the next sibling of the form
-                var messageDiv = form.next('.newsletter-message');
-
                 var emailValue = emailInput.val();
 
                 // Disable button to prevent multiple clicks
                 submitButton.prop('disabled', true).text('Subscribing...');
-                messageDiv.html(''); // Clear previous messages
 
                 // The AJAX call remains the same
                 $.ajax({
